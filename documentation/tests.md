@@ -15,6 +15,13 @@ La suite Vitest couvre :
 - la conservation des meilleurs résultats de défis et de cours ;
 - l’absence de dépendance Supabase dans `package.json`.
 
+La suite Playwright couvre :
+
+- la présence des contacts et des preuves pour un recruteur ;
+- le lancement direct du parcours `/recruteur` ;
+- l’exécution d’une commande dans le terminal simulé ;
+- le parcours cours → quiz → défi pratique dans Chromium.
+
 ## Commandes
 
 ```bash
@@ -22,6 +29,7 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
+npm run test:e2e
 ```
 
-Le workflow `.github/workflows/ci.yml` exécute les quatre contrôles sur les branches configurées et les Pull Requests.
+Le workflow `.github/workflows/ci.yml` exécute les contrôles unitaires, le build et les parcours Chromium sur les branches configurées et les Pull Requests.

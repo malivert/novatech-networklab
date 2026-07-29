@@ -12,11 +12,13 @@ Plateforme pédagogique et simulateur interactif de diagnostic des incidents ré
 
 [Ouvrir NovaTech NetworkLab](https://novatech-networklab.vercel.app)
 
+[Lancer la démonstration recruteur](https://novatech-networklab.vercel.app/recruteur) · [Suivre les cours](https://novatech-networklab.vercel.app/cours)
+
 ## Aperçu
 
 L’application propose huit cours réseau avec quiz, un centre de supervision, une topologie réseau interactive, un terminal PowerShell simulé, des journaux techniques filtrables, des corrections et un rapport d’intervention.
 
-Les captures de l’accueil et du centre de supervision sont conservées dans `public/screenshots/` lors de la publication.
+La route `/recruteur` lance directement un diagnostic DNS guidé afin de rendre la démarche technique observable en moins de deux minutes.
 
 ## Fonctionnalités
 
@@ -33,7 +35,10 @@ Les captures de l’accueil et du centre de supervision sont conservées dans `p
 - score sur 100 valorisant la méthode plus que la vitesse ;
 - progression locale, thème clair/sombre et mode recruteur de moins de deux minutes ;
 - rapport d’intervention copiable et imprimable en PDF ;
-- interface accessible et responsive.
+- interface accessible et responsive ;
+- accès direct au profil LinkedIn, au code source et à la démonstration recruteur ;
+- miniature Open Graph optimisée pour le partage sur LinkedIn ;
+- tests de parcours automatisés sur Chromium.
 
 ## Scénarios
 
@@ -87,6 +92,7 @@ npm run dev        # développement
 npm run lint       # qualité ESLint
 npm run typecheck  # TypeScript strict
 npm test           # tests automatisés
+npm run test:e2e   # parcours réels dans Chromium
 npm run build      # compilation de production
 ```
 
@@ -103,6 +109,7 @@ lib/scoring.ts           score sur 100
 lib/storage.ts           progression locale
 types/                   contrats TypeScript
 tests/                   tests automatisés
+e2e/                     parcours navigateur Playwright
 documentation/           architecture et guides
 ```
 
@@ -149,7 +156,10 @@ Le trafic, les équipements et les commandes sont simulés : l’application n�
 
 ## Auteur
 
-**Christian Malivert** — étudiant BTS SIO option SISR.
+**Christian Malivert** — étudiant BTS SIO option SISR, à la recherche d’une alternance.
+
+- [LinkedIn](https://www.linkedin.com/in/christian-malivert-274506211)
+- [GitHub](https://github.com/malivert)
 
 ## Licence
 

@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://novatech-networklab.vercel.app"),
   title: {
     default: "NovaTech NetworkLab — Simulateur de diagnostic réseau",
     template: "%s | NovaTech NetworkLab",
@@ -21,7 +22,26 @@ export const metadata: Metadata = {
   description:
     "Simulateur interactif de diagnostic DNS, DHCP, VLAN, TCP/IP et pare-feu créé par Christian Malivert.",
   authors: [{ name: "Christian Malivert" }],
+  creator: "Christian Malivert",
   keywords: ["BTS SIO", "SISR", "diagnostic réseau", "TCP/IP", "DNS", "DHCP", "VLAN"],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/",
+    siteName: "NovaTech NetworkLab",
+    title: "NovaTech NetworkLab — Trouvez la panne, rétablissez le réseau",
+    description:
+      "8 cours, 24 questions et 6 incidents réseau interactifs pour démontrer une démarche BTS SIO SISR.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NovaTech NetworkLab",
+    description:
+      "Cours, quiz et incidents réseau interactifs créés par Christian Malivert, étudiant BTS SIO SISR.",
+  },
 };
 
 export const viewport: Viewport = {
@@ -39,4 +59,3 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </html>
   );
 }
-

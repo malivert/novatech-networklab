@@ -1,6 +1,6 @@
 {
   "name": "novatech-networklab",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Simulateur interactif de diagnostic réseau pour BTS SIO SISR.",
   "author": "Christian Malivert",
@@ -14,7 +14,8 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@xyflow/react": "^12.11.2",
@@ -24,6 +25,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^20",

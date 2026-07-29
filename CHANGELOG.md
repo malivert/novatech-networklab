@@ -1,5 +1,14 @@
 # Journal des versions
 
+## 1.2.0 — 2026-07-29
+
+- ajout de la route directe `/recruteur` ;
+- ajout des contacts LinkedIn et GitHub dans l’application ;
+- ajout d’une miniature Open Graph pour les partages LinkedIn ;
+- ajout du sitemap et des règles d’indexation ;
+- ajout de tests de parcours Playwright ;
+- renforcement de la CI GitHub avec Chromium.
+
 ## 1.1.0 — 2026-07-29
 
 - ajout de huit cours réseau structurés, des fondamentaux à la méthode d’incident ;

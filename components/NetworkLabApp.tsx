@@ -13,9 +13,12 @@ import {
   Clipboard,
   Clock3,
   Code2,
+  ContactRound,
+  ExternalLink,
   FileCheck2,
   FileText,
   Gauge,
+  GitBranch,
   GraduationCap,
   Home,
   Info,
@@ -98,9 +101,16 @@ const viewRoutes: Record<ViewKey, string> = {
 };
 
 function viewFromPath(pathname: string): ViewKey {
+  if (pathname === "/recruteur") return "terminal";
   const match = (Object.entries(viewRoutes) as [ViewKey, string][]).find(([, route]) => route === pathname);
   return match?.[0] ?? "accueil";
 }
+
+const profileLinks = {
+  github: "https://github.com/malivert",
+  linkedin: "https://www.linkedin.com/in/christian-malivert-274506211",
+  repository: "https://github.com/malivert/novatech-networklab",
+};
 
 const formatDuration = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
@@ -108,22 +118,27 @@ const formatDuration = (seconds: number) => {
   return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
 };
 
-export function NetworkLabApp() {
-  const [view, setView] = useState<ViewKey>("accueil");
+export function NetworkLabApp({ initialRecruiterMode = false }: { initialRecruiterMode?: boolean }) {
+  const initialScenarioId = initialRecruiterMode ? "dns-incorrect" : scenarios[0].id;
+  const [view, setView] = useState<ViewKey>(initialRecruiterMode ? "terminal" : "accueil");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarCompact, setSidebarCompact] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [progress, setProgress] = useState<StoredProgress>(defaultProgress);
-  const [scenarioId, setScenarioId] = useState(scenarios[0].id);
-  const [scenarioStatus, setScenarioStatus] = useState<ScenarioStatus>("briefing");
+  const [scenarioId, setScenarioId] = useState(initialScenarioId);
+  const [scenarioStatus, setScenarioStatus] = useState<ScenarioStatus>(
+    initialRecruiterMode ? "active" : "briefing",
+  );
   const [commands, setCommands] = useState<CommandRecord[]>([]);
   const [actions, setActions] = useState<ActionRecord[]>([]);
   const [hintsUsed, setHintsUsed] = useState(0);
-  const [selectedDeviceId, setSelectedDeviceId] = useState("pc-dir");
+  const [selectedDeviceId, setSelectedDeviceId] = useState(
+    getScenario(initialScenarioId).workstationId,
+  );
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [durationSeconds, setDurationSeconds] = useState(0);
   const [elapsed, setElapsed] = useState(0);
-  const [recruiterMode, setRecruiterMode] = useState(false);
+  const [recruiterMode, setRecruiterMode] = useState(initialRecruiterMode);
   const [logSource, setLogSource] = useState("Toutes");
   const [logLevel, setLogLevel] = useState<LogLevel | "Tous">("Tous");
   const [copiedReport, setCopiedReport] = useState(false);
@@ -154,6 +169,7 @@ export function NetworkLabApp() {
       setProgress(stored);
       setTheme(stored.theme);
       setView(viewFromPath(window.location.pathname));
+      if (initialRecruiterMode) setStartedAt(Date.now());
       setStorageReady(true);
     }, 0);
     const onPopState = () => setView(viewFromPath(window.location.pathname));
@@ -162,7 +178,7 @@ export function NetworkLabApp() {
       window.clearTimeout(timer);
       window.removeEventListener("popstate", onPopState);
     };
-  }, []);
+  }, [initialRecruiterMode]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -205,7 +221,14 @@ export function NetworkLabApp() {
     setScenarioStatus("active");
     setStartedAt(Date.now());
     setRecruiterMode(recruiter);
-    navigate(recruiter ? "terminal" : "supervision");
+    if (recruiter) {
+      setView("terminal");
+      setMobileMenuOpen(false);
+      window.history.pushState({}, "", "/recruteur");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    navigate("supervision");
   }
 
   function selectScenario(nextScenarioId: string) {
@@ -385,10 +408,19 @@ Technicien : Christian Malivert`;
 
         <div className="sidebar-footer">
           <div className="avatar">CM</div>
-          <div>
+          <div className="sidebar-profile">
             <strong>Christian Malivert</strong>
             <span>BTS SIO SISR</span>
           </div>
+          <a
+            href={profileLinks.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Profil LinkedIn de Christian Malivert"
+            title="LinkedIn"
+          >
+            <ContactRound size={17} />
+          </a>
         </div>
       </aside>
 
@@ -402,7 +434,11 @@ Technicien : Christian Malivert`;
           <div className="breadcrumb">
             <span>NetworkLab</span>
             <ChevronRight size={14} />
-            <strong>{navItems.find((item) => item.key === view)?.label}</strong>
+            <strong>
+              {recruiterMode && view === "terminal"
+                ? "Démonstration recruteur"
+                : navItems.find((item) => item.key === view)?.label}
+            </strong>
           </div>
           <div className="topbar-actions">
             {scenarioStatus !== "briefing" && (
@@ -414,6 +450,15 @@ Technicien : Christian Malivert`;
             <button className="icon-button" type="button" onClick={changeTheme} aria-label={`Activer le mode ${theme === "dark" ? "clair" : "sombre"}`}>
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
+            <a
+              className="secondary-button compact-button profile-button"
+              href={profileLinks.linkedin}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ContactRound size={16} />
+              Me contacter
+            </a>
             <button className="primary-button compact-button" type="button" onClick={() => startScenario(scenario.id)}>
               <Play size={16} />
               {scenarioStatus === "briefing" ? "Lancer le défi" : "Recommencer"}
@@ -514,6 +559,36 @@ Technicien : Christian Malivert`;
                       </article>
                     );
                   })}
+                </div>
+              </section>
+
+              <section className="candidate-card">
+                <div className="candidate-avatar">CM</div>
+                <div className="candidate-copy">
+                  <span className="eyebrow">RECHERCHE D’ALTERNANCE</span>
+                  <h2>Christian Malivert · BTS SIO option SISR</h2>
+                  <p>
+                    Je recherche une entreprise où mettre en pratique le support, l’administration
+                    système et le diagnostic réseau.
+                  </p>
+                </div>
+                <div className="candidate-actions">
+                  <a
+                    className="primary-button"
+                    href={profileLinks.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <ContactRound size={17} /> Me contacter sur LinkedIn
+                  </a>
+                  <a
+                    className="secondary-button"
+                    href={profileLinks.repository}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <GitBranch size={17} /> Voir le code source
+                  </a>
                 </div>
               </section>
             </div>
@@ -876,6 +951,33 @@ Technicien : Christian Malivert`;
               <section className="recruiter-cta">
                 <div><span className="eyebrow">VOUS RECRUTEZ UN ALTERNANT ?</span><h2>Évaluez ma démarche en moins de 2 minutes.</h2><p>Ping, nslookup, trajet du paquet, correction DNS, score et rapport.</p></div>
                 <button className="primary-button hero-button" type="button" onClick={() => startScenario("dns-incorrect", true)}><Play size={18} /> Tester la démonstration recruteur</button>
+              </section>
+              <section className="contact-panel panel">
+                <div>
+                  <span className="eyebrow">CONTACT & CODE SOURCE</span>
+                  <h2>Échangeons sur une alternance SISR</h2>
+                  <p>
+                    Retrouvez mon parcours sur LinkedIn et inspectez l’intégralité du projet sur GitHub.
+                  </p>
+                </div>
+                <div className="contact-links">
+                  <a
+                    className="primary-button"
+                    href={profileLinks.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <ContactRound size={17} /> LinkedIn <ExternalLink size={14} />
+                  </a>
+                  <a
+                    className="secondary-button"
+                    href={profileLinks.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <GitBranch size={17} /> GitHub <ExternalLink size={14} />
+                  </a>
+                </div>
               </section>
             </div>
           )}
