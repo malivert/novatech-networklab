@@ -35,7 +35,7 @@ test("un cours mène du quiz au défi pratique", async ({ page }) => {
   await page.getByRole("button", { name: "Corriger mes réponses" }).click();
 
   await expect(page.getByText("MODULE VALIDÉ")).toBeVisible();
-  await expect(page.getByText("100 / 100")).toBeVisible();
+  await expect(page.locator(".quiz-result").getByText("100 / 100")).toBeVisible();
   await expect(page.getByRole("button", { name: /Défi : Conflit d’adresses IP/ })).toBeVisible();
 });
 
