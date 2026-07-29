@@ -2499,6 +2499,58 @@ pre {
   line-height: 1.6;
 }
 
+.recovery-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.recovery-card {
+  width: min(640px, 100%);
+  padding: 44px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgb(47 129 247 / 8%), var(--panel));
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.recovery-icon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  place-items: center;
+  border-radius: 18px;
+  color: var(--blue-bright);
+  background: rgb(47 129 247 / 12%);
+}
+
+.recovery-card h1 {
+  margin: 10px 0 12px;
+  font-size: clamp(30px, 6vw, 48px);
+}
+
+.recovery-card > p:not(.eyebrow) {
+  max-width: 520px;
+  margin: 0 auto;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.recovery-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.recovery-actions a {
+  text-decoration: none;
+}
+
 .result-hero {
   display: flex;
   align-items: center;
@@ -3225,6 +3277,15 @@ pre {
   }
 
   .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .recovery-card {
+    padding: 32px 20px;
+  }
+
+  .recovery-actions {
     align-items: stretch;
     flex-direction: column;
   }

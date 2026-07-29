@@ -8,6 +8,9 @@ export default defineConfig({
   reporter: process.env.CI ? "github" : "list",
   use: {
     baseURL: "http://127.0.0.1:3000",
+    launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+      ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+      : undefined,
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },

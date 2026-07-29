@@ -39,6 +39,9 @@ La route `/recruteur` lance directement un diagnostic DNS guidé afin de rendre 
 - accès direct au profil LinkedIn, au code source et à la démonstration recruteur ;
 - miniature Open Graph optimisée pour le partage sur LinkedIn ;
 - tests de parcours automatisés sur Chromium.
+- pages de secours en cas d’erreur React ou de route inconnue ;
+- données locales contrôlées avant utilisation pour résister à une progression corrompue ;
+- garde-fou de build bloquant automatiquement une version invalide avant déploiement.
 
 ## Scénarios
 
@@ -74,7 +77,7 @@ Aucune base distante ni authentification n’est utilisée. Supabase ne fait pas
 
 ## Installation locale
 
-Prérequis : Node.js 20.9 ou supérieur et npm.
+Prérequis : Node.js 22 et npm.
 
 ```bash
 git clone https://github.com/Malivert/novatech-networklab.git
@@ -93,8 +96,21 @@ npm run lint       # qualité ESLint
 npm run typecheck  # TypeScript strict
 npm test           # tests automatisés
 npm run test:e2e   # parcours réels dans Chromium
-npm run build      # compilation de production
+npm run check      # lint + TypeScript + tests
+npm run build      # contrôles + compilation de production
+npm run verify     # validation complète avec parcours navigateur
 ```
+
+## Stabilité des prochaines versions
+
+Les routes sont centralisées dans `lib/navigation.ts`, les catalogues sont contrôlés par des tests
+d’intégrité et la progression locale est assainie avant son utilisation. Les fichiers `error.tsx`,
+`global-error.tsx` et `not-found.tsx` conservent une interface de récupération si une erreur
+inattendue survient.
+
+Le script `npm run build`, également utilisé par Vercel, exécute d’abord ESLint, TypeScript et les
+tests unitaires. Une modification qui échoue à l’un de ces contrôles ne peut donc pas produire une
+nouvelle compilation de production.
 
 ## Architecture
 

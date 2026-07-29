@@ -12,6 +12,7 @@ NovaTech NetworkLab est une application Next.js App Router dont la simulation s�
 - `lib/terminal.ts` : interprétation déterministe des commandes ;
 - `lib/scoring.ts` : calcul du score sur 100 ;
 - `lib/storage.ts` : lecture, écriture et fusion de la progression locale ;
+- `lib/navigation.ts` : source unique des routes affichées et générées ;
 - `types/` : contrats TypeScript ;
 - `tests/` : tests du catalogue, du terminal, du score et du stockage.
 
@@ -37,6 +38,16 @@ NovaTech NetworkLab est une application Next.js App Router dont la simulation s�
 ## Persistance
 
 Seuls le thème, les meilleurs résultats des défis et les scores des cours sont conservés dans `localStorage`. Une erreur de quota, de sécurité ou de JSON est interceptée et ne bloque jamais l’application.
+Les objets partiellement corrompus ou provenant d’une ancienne structure sont filtrés avant leur
+utilisation afin qu’une donnée locale invalide ne puisse pas casser le rendu.
+
+## Tolérance aux erreurs
+
+- `app/error.tsx` isole une erreur de route et permet de relancer le rendu ;
+- `app/global-error.tsx` fournit un mode de secours si le layout racine échoue ;
+- `app/not-found.tsx` remplace la 404 générique par un retour vers l’accueil ;
+- `npm run build` bloque la compilation tant que lint, TypeScript ou les tests échouent ;
+- la CI utilise Node.js 22 et annule les validations devenues obsolètes.
 
 ## Sécurité et confidentialité
 

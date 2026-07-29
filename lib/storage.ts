@@ -8,20 +8,94 @@ export const defaultProgress: StoredProgress = {
   theme: "dark",
 };
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isSafeInteger(value: unknown): value is number {
+  return typeof value === "number" && Number.isSafeInteger(value) && value >= 0;
+}
+
+function isScore(value: unknown): value is number {
+  return isSafeInteger(value) && value <= 100;
+}
+
+function sanitizeScenarioProgress(value: unknown): ScenarioProgress | null {
+  if (
+    !isRecord(value) ||
+    typeof value.scenarioId !== "string" ||
+    value.scenarioId.length === 0 ||
+    !isScore(value.bestScore) ||
+    typeof value.completed !== "boolean" ||
+    !isSafeInteger(value.bestDurationSeconds) ||
+    !isSafeInteger(value.attempts) ||
+    typeof value.updatedAt !== "string"
+  ) {
+    return null;
+  }
+
+  return {
+    scenarioId: value.scenarioId,
+    bestScore: value.bestScore,
+    completed: value.completed,
+    bestDurationSeconds: value.bestDurationSeconds,
+    attempts: value.attempts,
+    updatedAt: value.updatedAt,
+  };
+}
+
+function sanitizeCourseProgress(value: unknown): CourseProgress | null {
+  if (
+    !isRecord(value) ||
+    typeof value.courseId !== "string" ||
+    value.courseId.length === 0 ||
+    !isScore(value.bestScore) ||
+    typeof value.completed !== "boolean" ||
+    !isSafeInteger(value.attempts) ||
+    typeof value.updatedAt !== "string"
+  ) {
+    return null;
+  }
+
+  return {
+    courseId: value.courseId,
+    bestScore: value.bestScore,
+    completed: value.completed,
+    attempts: value.attempts,
+    updatedAt: value.updatedAt,
+  };
+}
+
+export function sanitizeProgress(value: unknown): StoredProgress {
+  if (!isRecord(value)) return { ...defaultProgress };
+
+  const scenarios = Array.isArray(value.scenarios)
+    ? value.scenarios
+        .map(sanitizeScenarioProgress)
+        .filter((item): item is ScenarioProgress => item !== null)
+    : [];
+  const courses = Array.isArray(value.courses)
+    ? value.courses
+        .map(sanitizeCourseProgress)
+        .filter((item): item is CourseProgress => item !== null)
+    : [];
+
+  return {
+    scenarios,
+    courses,
+    theme: value.theme === "light" ? "light" : "dark",
+  };
+}
+
 export function readProgress(storage?: Pick<Storage, "getItem">): StoredProgress {
-  if (!storage) return defaultProgress;
+  if (!storage) return { ...defaultProgress };
 
   try {
     const raw = storage.getItem(STORAGE_KEY);
-    if (!raw) return defaultProgress;
-    const parsed = JSON.parse(raw) as Partial<StoredProgress>;
-    return {
-      scenarios: Array.isArray(parsed.scenarios) ? parsed.scenarios : [],
-      courses: Array.isArray(parsed.courses) ? parsed.courses : [],
-      theme: parsed.theme === "light" ? "light" : "dark",
-    };
+    if (!raw) return { ...defaultProgress };
+    return sanitizeProgress(JSON.parse(raw) as unknown);
   } catch {
-    return defaultProgress;
+    return { ...defaultProgress };
   }
 }
 
