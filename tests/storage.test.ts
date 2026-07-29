@@ -5,6 +5,7 @@ import {
   mergeCourseProgress,
   mergeScenarioProgress,
   readProgress,
+  sanitizeProgress,
   writeProgress,
 } from "@/lib/storage";
 
@@ -32,6 +33,30 @@ describe("stockage local", () => {
       },
     };
     expect(writeProgress(defaultProgress, storage)).toBe(false);
+  });
+
+  it("écarte les entrées corrompues sans faire planter l’application", () => {
+    const storage = {
+      getItem: () =>
+        JSON.stringify({
+          theme: "light",
+          scenarios: [null, { scenarioId: "dns-incorrect" }, "invalide"],
+          courses: [{ courseId: "dns", bestScore: 150, completed: true }],
+        }),
+    };
+
+    expect(readProgress(storage)).toEqual({
+      scenarios: [],
+      courses: [],
+      theme: "light",
+    });
+  });
+
+  it("normalise une valeur inconnue vers un état toujours exploitable", () => {
+    expect(sanitizeProgress(null)).toEqual(defaultProgress);
+    expect(sanitizeProgress({ scenarios: "non", courses: {}, theme: "violet" })).toEqual(
+      defaultProgress,
+    );
   });
 
   it("conserve le meilleur score et incrémente les tentatives", () => {

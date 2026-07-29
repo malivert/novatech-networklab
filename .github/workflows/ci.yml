@@ -6,9 +6,17 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
@@ -22,16 +30,7 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
-      - name: Lint
-        run: npm run lint
-
-      - name: TypeScript
-        run: npm run typecheck
-
-      - name: Tests
-        run: npm test
-
-      - name: Build
+      - name: Contrôles automatiques et build
         run: npm run build
 
       - name: Installer Chromium

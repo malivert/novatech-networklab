@@ -53,6 +53,7 @@ import {
   readProgress,
   writeProgress,
 } from "@/lib/storage";
+import { VIEW_ROUTES, viewFromPath } from "@/lib/navigation";
 import type {
   ActionRecord,
   CommandRecord,
@@ -86,25 +87,6 @@ const navItems: Array<{ key: ViewKey; label: string; icon: typeof Home }> = [
   { key: "competences", label: "Compétences BTS SIO", icon: GraduationCap },
   { key: "a-propos", label: "À propos", icon: Info },
 ];
-
-const viewRoutes: Record<ViewKey, string> = {
-  accueil: "/",
-  cours: "/cours",
-  supervision: "/supervision",
-  defis: "/defis",
-  terminal: "/terminal",
-  journaux: "/journaux",
-  resultat: "/resultat",
-  progression: "/progression",
-  competences: "/competences",
-  "a-propos": "/a-propos",
-};
-
-function viewFromPath(pathname: string): ViewKey {
-  if (pathname === "/recruteur") return "terminal";
-  const match = (Object.entries(viewRoutes) as [ViewKey, string][]).find(([, route]) => route === pathname);
-  return match?.[0] ?? "accueil";
-}
 
 const profileLinks = {
   github: "https://github.com/malivert",
@@ -198,7 +180,7 @@ export function NetworkLabApp({ initialRecruiterMode = false }: { initialRecruit
   function navigate(nextView: ViewKey) {
     setView(nextView);
     setMobileMenuOpen(false);
-    window.history.pushState({}, "", viewRoutes[nextView]);
+    window.history.pushState({}, "", VIEW_ROUTES[nextView]);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

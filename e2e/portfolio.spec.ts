@@ -38,3 +38,14 @@ test("un cours mène du quiz au défi pratique", async ({ page }) => {
   await expect(page.getByText("100 / 100")).toBeVisible();
   await expect(page.getByRole("button", { name: /Défi : Conflit d’adresses IP/ })).toBeVisible();
 });
+
+test("une route inconnue conserve une porte de sortie fonctionnelle", async ({ page }) => {
+  const response = await page.goto("/rubrique-inconnue");
+
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { name: "Cette route n’existe pas" })).toBeVisible();
+  await page.getByRole("link", { name: "Retour à l’accueil" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Trouvez la panne. Rétablissez le réseau." }),
+  ).toBeVisible();
+});

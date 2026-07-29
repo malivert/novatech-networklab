@@ -1,5 +1,16 @@
 # Journal des versions
 
+## 1.3.0 — 2026-07-29
+
+- ajout des pages de récupération locale et globale en cas d’erreur React ;
+- ajout d’une page 404 intégrée avec retour fonctionnel ;
+- assainissement strict des données de progression stockées dans le navigateur ;
+- centralisation des routes afin d’éviter les écarts entre menu et pages générées ;
+- ajout de tests d’intégrité pour les routes, équipements, scénarios et commandes ;
+- verrouillage du build sur lint, TypeScript et tests réussis ;
+- fixation de Node.js 22 pour obtenir des compilations reproductibles ;
+- ajout d’un contrat de stabilité pour les futures modifications par agent.
+
 ## 1.2.0 — 2026-07-29
 
 - ajout de la route directe `/recruteur` ;
