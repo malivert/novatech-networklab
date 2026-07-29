@@ -1,0 +1,7 @@
+VLAN;Usage;Reseau;Prefixe;Masque;Passerelle;Premiere_adresse;Derniere_adresse;Plage_DHCP;Diffusion;Politique
+10;Direction;10.10.0.0/24;/24;255.255.255.0;10.10.0.1;10.10.0.1;10.10.0.254;10.10.0.20-10.10.0.199;10.10.0.255;Acces aux services internes et journalisation renforcee
+20;Comptabilite;10.20.0.0/24;/24;255.255.255.0;10.20.0.1;10.20.0.1;10.20.0.254;10.20.0.20-10.20.0.199;10.20.0.255;Acces ERP et fichiers avec flux inter-VLAN limites
+30;Commercial;10.30.0.0/24;/24;255.255.255.0;10.30.0.1;10.30.0.1;10.30.0.254;10.30.0.20-10.30.0.199;10.30.0.255;Acces CRM DNS DHCP et Internet
+40;Informatique;10.40.0.0/24;/24;255.255.255.0;10.40.0.1;10.40.0.1;10.40.0.254;10.40.0.50-10.40.0.199;10.40.0.255;Administration des equipements et supervision
+50;Serveurs;10.50.0.0/24;/24;255.255.255.0;10.50.0.1;10.50.0.1;10.50.0.254;Aucune;10.50.0.255;Adressage statique et acces entrant filtre par service
+60;Wi-Fi invites;10.60.0.0/24;/24;255.255.255.0;10.60.0.1;10.60.0.1;10.60.0.254;10.60.0.50-10.60.0.230;10.60.0.255;Internet uniquement et isolation du reseau interne

@@ -3,6 +3,7 @@ import type { ViewKey } from "@/types/network";
 export const VIEW_ROUTES = {
   accueil: "/",
   cours: "/cours",
+  preuves: "/preuves",
   supervision: "/supervision",
   defis: "/defis",
   terminal: "/terminal",

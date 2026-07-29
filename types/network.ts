@@ -9,6 +9,7 @@ export type LogLevel = "Information" | "Avertissement" | "Erreur";
 export type ViewKey =
   | "accueil"
   | "cours"
+  | "preuves"
   | "supervision"
   | "defis"
   | "terminal"

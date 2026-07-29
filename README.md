@@ -12,11 +12,11 @@ Plateforme pédagogique et simulateur interactif de diagnostic des incidents ré
 
 [Ouvrir NovaTech NetworkLab](https://novatech-networklab.vercel.app)
 
-[Lancer la démonstration recruteur](https://novatech-networklab.vercel.app/recruteur) · [Suivre les cours](https://novatech-networklab.vercel.app/cours)
+[Lancer la démonstration recruteur](https://novatech-networklab.vercel.app/recruteur) · [Suivre les cours](https://novatech-networklab.vercel.app/cours) · [Consulter les preuves techniques](https://novatech-networklab.vercel.app/preuves)
 
 ## Aperçu
 
-L’application propose huit cours réseau avec quiz, un centre de supervision, une topologie réseau interactive, un terminal PowerShell simulé, des journaux techniques filtrables, des corrections et un rapport d’intervention.
+L’application propose huit cours réseau avec quiz, un centre de supervision, une topologie réseau interactive, un terminal PowerShell simulé, des journaux techniques filtrables, des corrections, un rapport d’intervention et un plan d’adressage vérifiable.
 
 La route `/recruteur` lance directement un diagnostic DNS guidé afin de rendre la démarche technique observable en moins de deux minutes.
 
@@ -24,6 +24,8 @@ La route `/recruteur` lance directement un diagnostic DNS guidé afin de rendre 
 
 - topologie interactive de onze équipements avec zoom, déplacement et inspection ;
 - six VLAN réalistes de la Direction au Wi-Fi invités ;
+- plan d’adressage complet : réseaux, masques, passerelles, DHCP, diffusion et affectations IP ;
+- deux fichiers CSV et un dossier technique téléchargeables depuis `/preuves` ;
 - six scénarios entièrement fonctionnels sur trois difficultés ;
 - huit cours structurés, vingt-quatre questions de quiz et une progression locale ;
 - passage direct de chaque cours vers un défi pratique associé ;
@@ -39,6 +41,7 @@ La route `/recruteur` lance directement un diagnostic DNS guidé afin de rendre 
 - accès direct au profil LinkedIn, au code source et à la démonstration recruteur ;
 - miniature Open Graph optimisée pour le partage sur LinkedIn ;
 - tests de parcours automatisés sur Chromium.
+- tests automatiques des sous-réseaux, plages DHCP et affectations d’équipements ;
 - pages de secours en cas d’erreur React ou de route inconnue ;
 - données locales contrôlées avant utilisation pour résister à une progression corrompue ;
 - garde-fou de build bloquant automatiquement une version invalide avant déploiement.
@@ -62,6 +65,19 @@ La route `/recruteur` lance directement un diagnostic DNS guidé afin de rendre 
 6. Commandes de diagnostic réseau
 7. Sécurité réseau et pare-feu
 8. Révision finale et méthode d’incident
+
+## Preuve technique
+
+La route `/preuves` présente un plan d’adressage conçu pour la topologie NovaTech :
+
+- six réseaux privés `/24`, soit 1 524 adresses utilisables ;
+- une passerelle, une adresse de diffusion et une politique par VLAN ;
+- cinq plages DHCP contrôlées et un VLAN Serveurs en adressage statique ;
+- dix affectations IP d’équipements documentées ;
+- une isolation explicite du Wi-Fi invités ;
+- des tests qui détectent les chevauchements, les plages invalides et les équipements hors réseau.
+
+Livrables : [plan des VLAN](public/preuves/plan-vlans-novatech.csv), [inventaire IP](public/preuves/inventaire-ip-novatech.csv) et [dossier technique](public/preuves/dossier-technique-adressage.md).
 
 ## Technologies
 
@@ -119,7 +135,9 @@ app/                     routes et styles
 components/network/      topologie et paquets
 components/terminal/     terminal interactif
 components/courses/      parcours pédagogique et quiz
-data/                    cours, équipements et scénarios
+components/proofs/       présentation des preuves techniques
+data/                    cours, équipements, adressage et scénarios
+public/preuves/          livrables réseau téléchargeables
 lib/terminal.ts          moteur de commandes
 lib/scoring.ts           score sur 100
 lib/storage.ts           progression locale
@@ -129,7 +147,7 @@ e2e/                     parcours navigateur Playwright
 documentation/           architecture et guides
 ```
 
-Voir [l’architecture](documentation/architecture.md), [les scénarios](documentation/scenarios.md) et [les tests](documentation/tests.md).
+Voir [l’architecture](documentation/architecture.md), [le plan d’adressage](documentation/plan-adressage.md), [les scénarios](documentation/scenarios.md) et [les tests](documentation/tests.md).
 
 ## Fonctionnement du terminal
 
@@ -168,7 +186,7 @@ Le bouton dédié lance une panne DNS courte :
 
 ## Limites et améliorations
 
-Le trafic, les équipements et les commandes sont simulés : l’application n’envoie aucun paquet réel. Les prochaines évolutions possibles sont un éditeur de scénarios, un mode équipe et davantage de protocoles.
+Le plan d’adressage est un vrai livrable de conception réseau. Le trafic, les équipements et les commandes restent simulés : l’application n’envoie aucun paquet réel et ne revendique pas de capture Wireshark ni de fichier Packet Tracer. Les prochaines évolutions possibles sont un éditeur de scénarios, un mode équipe et davantage de protocoles.
 
 ## Auteur
 
