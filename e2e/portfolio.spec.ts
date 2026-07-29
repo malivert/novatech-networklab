@@ -39,6 +39,23 @@ test("un cours mène du quiz au défi pratique", async ({ page }) => {
   await expect(page.getByRole("button", { name: /Défi : Conflit d’adresses IP/ })).toBeVisible();
 });
 
+test("la preuve technique est consultable et téléchargeable", async ({ page }) => {
+  await page.goto("/preuves");
+
+  await expect(page.getByRole("heading", { name: "Plan d’adressage NovaTech" })).toBeVisible();
+  await expect(page.getByText("6 VLAN", { exact: true })).toBeVisible();
+  await expect(page.getByRole("table", { name: "Plan d’adressage IPv4 des VLAN NovaTech" })).toBeVisible();
+  await expect(page.getByRole("row", { name: /60 Wi-Fi invités/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Plan des VLAN/ })).toHaveAttribute(
+    "href",
+    "/preuves/plan-vlans-novatech.csv",
+  );
+  await expect(page.getByRole("link", { name: /Inventaire des adresses IP/ })).toHaveAttribute(
+    "download",
+    "",
+  );
+});
+
 test("une route inconnue conserve une porte de sortie fonctionnelle", async ({ page }) => {
   const response = await page.goto("/rubrique-inconnue");
 

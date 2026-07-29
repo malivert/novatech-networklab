@@ -8,7 +8,9 @@ NovaTech NetworkLab est une application Next.js App Router dont la simulation s�
 - `components/network/` : topologie React Flow et trajet du paquet ;
 - `components/terminal/` : saisie, historique et affichage des commandes ;
 - `components/courses/` : navigation des modules, leçons et quiz ;
-- `data/` : cours, équipements, VLAN et scénarios ;
+- `components/proofs/` : présentation des preuves et livrables réseau ;
+- `data/` : cours, équipements, VLAN, adressage et scénarios ;
+- `public/preuves/` : fichiers techniques téléchargeables ;
 - `lib/terminal.ts` : interprétation déterministe des commandes ;
 - `lib/scoring.ts` : calcul du score sur 100 ;
 - `lib/storage.ts` : lecture, écriture et fusion de la progression locale ;
@@ -34,6 +36,12 @@ NovaTech NetworkLab est une application Next.js App Router dont la simulation s�
 4. Un score d’au moins 67 % valide le module.
 5. Le visiteur lance le défi pratique associé.
 6. Le meilleur score et le nombre de tentatives restent disponibles localement.
+
+## Preuve technique
+
+La route `/preuves` lit la source structurée `data/addressing.ts`, affiche le plan IPv4 et propose
+les livrables placés dans `public/preuves/`. Les tests comparent les sous-réseaux, affectations et
+fichiers publics afin qu’une future modification incohérente soit bloquée avant le build.
 
 ## Persistance
 

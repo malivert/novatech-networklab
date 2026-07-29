@@ -5,6 +5,10 @@ La suite Vitest couvre :
 - le chargement et l’unicité des six scénarios ;
 - le chargement et l’unicité des huit cours ;
 - la validité des vingt-quatre questions et des défis associés ;
+- l’unicité et les bornes des six sous-réseaux `/24` ;
+- la cohérence des passerelles, plages DHCP et diffusions ;
+- l’appartenance des dix équipements internes à leur VLAN ;
+- la cohérence des livrables CSV avec les données affichées ;
 - les trois niveaux de difficulté ;
 - les sorties DNS, DHCP, pare-feu et ARP avant correction ;
 - le changement de résultat après correction ;
@@ -21,6 +25,7 @@ La suite Playwright couvre :
 - le lancement direct du parcours `/recruteur` ;
 - l’exécution d’une commande dans le terminal simulé ;
 - le parcours cours → quiz → défi pratique dans Chromium.
+- la consultation de `/preuves` et la présence des téléchargements techniques ;
 
 ## Commandes
 

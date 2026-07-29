@@ -1,6 +1,6 @@
 {
   "name": "novatech-networklab",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "description": "Simulateur interactif de diagnostic réseau pour BTS SIO SISR.",
   "author": "Christian Malivert",

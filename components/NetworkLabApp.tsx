@@ -65,6 +65,7 @@ import type {
 import { PacketTrace } from "@/components/network/PacketTrace";
 import { SimulatedTerminal } from "@/components/terminal/SimulatedTerminal";
 import { CourseHub } from "@/components/courses/CourseHub";
+import { TechnicalProofs } from "@/components/proofs/TechnicalProofs";
 import { networkCourses } from "@/data/courses";
 
 const NetworkTopology = dynamic(
@@ -78,6 +79,7 @@ const NetworkTopology = dynamic(
 const navItems: Array<{ key: ViewKey; label: string; icon: typeof Home }> = [
   { key: "accueil", label: "Accueil", icon: Home },
   { key: "cours", label: "Cours réseau", icon: BookOpenCheck },
+  { key: "preuves", label: "Preuves techniques", icon: FileText },
   { key: "supervision", label: "Centre de supervision", icon: Gauge },
   { key: "defis", label: "Défis", icon: ListChecks },
   { key: "terminal", label: "Terminal", icon: TerminalSquare },
@@ -477,6 +479,9 @@ Technicien : Christian Malivert`;
                     <button className="secondary-button hero-button" type="button" onClick={() => startScenario("dns-incorrect", true)}>
                       <Sparkles size={18} /> Démonstration recruteur — moins de 2 min
                     </button>
+                    <button className="secondary-button hero-button" type="button" onClick={() => navigate("preuves")}>
+                      <FileText size={18} /> Voir la preuve technique
+                    </button>
                   </div>
                   <div className="hero-proof">
                     <span><Check size={15} /> 8 cours et quiz</span>
@@ -588,6 +593,17 @@ Technicien : Christian Malivert`;
                 onComplete={completeCourse}
                 onLaunchScenario={(courseScenarioId) => startScenario(courseScenarioId)}
               />
+            </div>
+          )}
+
+          {view === "preuves" && (
+            <div className="page-content">
+              <PageTitle
+                eyebrow="PREUVE TECHNIQUE RÉELLE"
+                title="Plan d’adressage NovaTech"
+                description="Un livrable réseau documenté et téléchargeable : segmentation VLAN, sous-réseaux IPv4, passerelles, plages DHCP, affectations et règles d’isolement."
+              />
+              <TechnicalProofs />
             </div>
           )}
 

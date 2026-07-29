@@ -1,5 +1,15 @@
 # Journal des versions
 
+## 1.4.0 — 2026-07-29
+
+- ajout d’une page `/preuves` dédiée aux livrables techniques ;
+- ajout d’un plan d’adressage complet pour six VLAN et 1 524 adresses utilisables ;
+- documentation des passerelles, plages DHCP, diffusions et politiques d’isolement ;
+- ajout d’un inventaire IP de dix équipements internes ;
+- ajout de deux fichiers CSV et d’un dossier technique téléchargeables ;
+- ajout de tests sur les sous-réseaux, étendues DHCP, affectations IP et fichiers publiés ;
+- ajout d’un parcours Chromium vérifiant la consultation et le téléchargement de la preuve.
+
 ## 1.3.0 — 2026-07-29
 
 - ajout des pages de récupération locale et globale en cas d’erreur React ;
